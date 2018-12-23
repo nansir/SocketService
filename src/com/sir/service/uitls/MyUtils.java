@@ -2,15 +2,14 @@ package com.sir.service.uitls;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 /**
  * Created by zhuyinan on 2018/12/20.
  */
-
 public class MyUtils {
-
 
     /**
      * 读取属性文件config.properties
@@ -18,19 +17,13 @@ public class MyUtils {
      * @param key
      * @return
      */
-    public static String getConfig(String key) {
+    public static String getConfig(String key) throws IOException {
         Properties prop = new Properties();
-        String value = "";
-        try {
-            FileInputStream stream = new FileInputStream("config.properties");
-            InputStream in = new BufferedInputStream(stream);
-            prop.load(in);
-            value = prop.getProperty(key);
-            in.close();
-            return value;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        FileInputStream stream = new FileInputStream("config.properties");
+        InputStream in = new BufferedInputStream(stream);
+        prop.load(in);
+        String value = prop.getProperty(key);
+        in.close();
         return value;
     }
 

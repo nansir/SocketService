@@ -1,6 +1,6 @@
 package com.sir.service;
 
-import com.sir.service.soket.SocketService;
+import com.sir.service.soket.SocketUdpService;
 
 /**
  * Created by zhuyinan on 2018/12/19.
@@ -8,6 +8,7 @@ import com.sir.service.soket.SocketService;
 public class Entrance {
 
     public static void main(String[] args) {
-        SocketService.getInstance().start();
+        //SocketTcpService.getInstance().start();
+        SocketUdpService.getInstance().start();
     }
 }

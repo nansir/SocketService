@@ -23,26 +23,23 @@ public class SocketTransceiver implements Runnable {
 
     public void run() {
         try {
-            String str;
-            if (mSocket == null) {
-                return;
-            } else {
-                str = receive();
+            String str = receive();
+            if (str != null && !str.trim().equals("")) {
+                LogUtils.i("收到：" + str);
+                String order[] = str.split("=");
+                String feedback;
+                if (order == null || order.length != 2) {
+                    feedback = "invalid header";
+                } else if (order[0].equals("cmd")) {
+                    feedback = mProcessor.exeCmd(order[1]);
+                } else if (order[0].equals("serial")) {
+                    feedback = mProcessor.exeSerial(order[1]);
+                } else {
+                    feedback = "invalid header";
+                }
+                LogUtils.i("反馈：" + feedback);
+                send(feedback);
             }
-            LogUtils.i("收到：" + str);
-            String order[] = str.split("=");
-            String feedback;
-            if (order == null || order.length != 2) {
-                feedback = "invalid header";
-            } else if (order[0].equals("cmd")) {
-                feedback = mProcessor.exeCmd(order[1]);
-            } else if (order[0].equals("serial")) {
-                feedback = mProcessor.exeSerial(order[1]);
-            } else {
-                feedback = "invalid header";
-            }
-            LogUtils.i("反馈：" + feedback);
-            send(feedback);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

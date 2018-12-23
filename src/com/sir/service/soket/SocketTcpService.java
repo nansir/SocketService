@@ -11,16 +11,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Socket 服务
+ * Socket TCP 服务
  * Created by zhuyinan on 2018/9/6.
  * Contact by 445181052@qq.com
  */
-public class SocketService extends Thread {
+public class SocketTcpService extends Thread {
 
     //处理器
     private SocketProcessor mProcessor;
     //
-    private static SocketService mService = null;
+    private static SocketTcpService mService = null;
     // 线程池，用于支持并发。
     private ExecutorService mThreadPool;
     //
@@ -31,18 +31,18 @@ public class SocketService extends Thread {
     /**
      * 只能存在单实例
      */
-    private SocketService() {
+    private SocketTcpService() {
         mThreadPool = Executors.newCachedThreadPool();
         mProcessor = new SocketProcessor();
         mStartup = true;
         mServerSocket = null;
     }
 
-    public static SocketService getInstance() {
+    public static SocketTcpService getInstance() {
         if (mService == null) {
-            synchronized (SocketService.class) {
+            synchronized (SocketTcpService.class) {
                 if (mService == null) {
-                    mService = new SocketService();
+                    mService = new SocketTcpService();
                 }
             }
         }
@@ -57,23 +57,21 @@ public class SocketService extends Thread {
     }
 
     public void run() {
+
         try {
             //获取配置文件端口号
             String value = MyUtils.getConfig("port");
             int port = Integer.parseInt(value);
             mServerSocket = new ServerSocket(port);
-        } catch (Exception e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
             try {
-                //获取失端口失败使用默认端口1222
                 mServerSocket = new ServerSocket(1222);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         }
 
-        LogUtils.i("启动服务器,端口号：" + mServerSocket.getLocalPort());
+        LogUtils.i("启动TCP服务器,端口号：" + mServerSocket.getLocalPort());
 
         while (mStartup) {
             try {
