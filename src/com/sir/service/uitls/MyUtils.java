@@ -4,12 +4,16 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 /**
  * Created by zhuyinan on 2018/12/20.
  */
 public class MyUtils {
+
+    static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 
     /**
      * 读取属性文件config.properties
@@ -47,5 +51,14 @@ public class MyUtils {
             stringBuilder.append(hv + " ");
         }
         return stringBuilder.toString();
+    }
+
+    /**
+     * 获取系统时间
+     *
+     * @return
+     */
+    public static String getTime() {
+        return df.format(new Date());
     }
 }

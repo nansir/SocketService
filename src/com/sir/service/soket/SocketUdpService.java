@@ -1,5 +1,6 @@
 package com.sir.service.soket;
 
+import com.sir.service.uitls.Key;
 import com.sir.service.uitls.LogUtils;
 import com.sir.service.uitls.MyUtils;
 
@@ -58,7 +59,7 @@ public class SocketUdpService extends Thread {
 
         //获取配置文件端口号
         try {
-            String value = MyUtils.getConfig("port");
+            String value = MyUtils.getConfig(Key.PORT);
             int port = Integer.parseInt(value);
             dSocket = new DatagramSocket(port);
         } catch (IOException e) {

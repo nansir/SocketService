@@ -6,10 +6,10 @@ package com.sir.service.uitls;
 public class LogUtils {
 
     public static void i(String msg) {
-        System.out.println(msg);
+        System.out.println(MyUtils.getTime() + " " + msg);
     }
 
     public static void e(String msg) {
-        System.err.println(msg);
+        System.err.println(MyUtils.getTime() + " " + msg);
     }
 }
