@@ -53,4 +53,15 @@ public class SocketProcessor {
             return e.toString();
         }
     }
+
+    public static String exeVoice(String s) {
+        try {
+            LogUtils.i("执行声音命令:" + s);
+
+
+            return "ok";
+        } catch (Exception e) {
+            return e.toString();
+        }
+    }
 }
