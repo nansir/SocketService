@@ -24,8 +24,6 @@ public class SysVoice {
      */
     private static void controlVoice(Voice type) {
         try {
-
-            /**tempFile：vbs 文件 vbsMessage：vbs 文件的内容*/
             String vbsMessage;
             File tempFile;
             Runtime runtime = Runtime.getRuntime();
