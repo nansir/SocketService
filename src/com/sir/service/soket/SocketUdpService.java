@@ -71,18 +71,25 @@ public class SocketUdpService extends Thread {
         }
 
         try {
-            LogUtils.i("启动UDP服务器,端口号：" + dSocket.getLocalPort());
+            LogUtils.i("启动UDP服务,端口号：" + dSocket.getLocalPort());
             while (mStartup) {
                 dSocket.receive(packet);
                 String msg = new String(packet.getData(), packet.getOffset(), packet.getLength());
                 if (msg != null && !msg.trim().equals("")) {
                     LogUtils.i("收到：" + msg);
-                    String order[] = msg.split("=");
-                    if (order == null || order.length != 2) {
-                    } else if (order[0].equals("cmd")) {
-                        mProcessor.exeCmd(order[1]);
-                    } else if (order[0].equals("serial")) {
-                        mProcessor.exeSerial(order[1]);
+                    String order[] = msg.trim().split("=");
+                    if (order.length == 2) {
+                        if (Key.HCom.equals(order[0])) {
+                            mProcessor.exeCmd(order[1]);
+                        } else if (Key.HSerial.equals(order[0])) {
+                            mProcessor.exeSerial(order[1]);
+                        } else if (Key.HVoice.equals(order[0])) {
+                            mProcessor.exeVoice(order[1].toLowerCase().trim());
+                        }else {
+                            LogUtils.i("反馈：The head is invalid");
+                        }
+                    } else {
+                        LogUtils.i("反馈：The command is invalid");
                     }
                 }
             }

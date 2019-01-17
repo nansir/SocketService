@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.sir.service.serial.SerialBean;
 import com.sir.service.serial.SerialService;
 import com.sir.service.uitls.LogUtils;
+import com.sir.service.voice.SysVoice;
 import gnu.io.SerialPort;
 
 import java.io.IOException;
@@ -54,11 +55,31 @@ public class SocketProcessor {
         }
     }
 
-    public static String exeVoice(String s) {
+    /**
+     * 系统声音
+     *
+     * @param voice
+     * @return
+     */
+    public static String exeVoice(String voice) {
         try {
-            LogUtils.i("执行声音命令:" + s);
-
-
+            LogUtils.i("执行声音命令:" + voice);
+            String order[] = voice.split(" ");
+            if (order.length == 2) {
+                if ("add".equals(order[0])) {
+                    SysVoice.add(order[1]);
+                } else if ("minus".equals(order[0])) {
+                    SysVoice.minus(order[1]);
+                }
+            } else {
+                if ("mute".equals(voice)) {
+                    SysVoice.mute();
+                } else if ("add".equals(voice)) {
+                    SysVoice.add();
+                } else if ("minus".equals(voice)) {
+                    SysVoice.minus();
+                }
+            }
             return "ok";
         } catch (Exception e) {
             return e.toString();

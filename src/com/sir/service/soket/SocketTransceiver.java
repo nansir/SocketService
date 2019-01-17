@@ -1,5 +1,6 @@
 package com.sir.service.soket;
 
+import com.sir.service.uitls.Key;
 import com.sir.service.uitls.LogUtils;
 
 import java.io.*;
@@ -28,14 +29,18 @@ public class SocketTransceiver implements Runnable {
                 LogUtils.i("收到：" + str);
                 String order[] = str.split("=");
                 String feedback;
-                if (order == null || order.length != 2) {
-                    feedback = "invalid header";
-                } else if (order[0].equals("cmd")) {
-                    feedback = mProcessor.exeCmd(order[1]);
-                } else if (order[0].equals("serial")) {
-                    feedback = mProcessor.exeSerial(order[1]);
+                if (order.length == 2) {
+                    if (Key.HCom.equals(order[0])) {
+                        feedback = mProcessor.exeCmd(order[1]);
+                    } else if (Key.HSerial.equals(order[0])) {
+                        feedback = mProcessor.exeSerial(order[1]);
+                    } else if (Key.HVoice.equals(order[0])) {
+                        feedback = mProcessor.exeVoice(order[1].toLowerCase());
+                    } else {
+                        feedback = "The head is invalid";
+                    }
                 } else {
-                    feedback = "invalid header";
+                    feedback = "The command is invalid";
                 }
                 LogUtils.i("反馈：" + feedback);
                 send(feedback);

@@ -72,7 +72,7 @@ public class SocketTcpService extends Thread {
             }
         }
 
-        LogUtils.i("启动TCP服务器,端口号：" + mServerSocket.getLocalPort());
+        LogUtils.i("启动TCP服务,端口号：" + mServerSocket.getLocalPort());
 
         while (mStartup) {
             try {
