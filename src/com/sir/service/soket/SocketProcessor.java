@@ -3,8 +3,9 @@ package com.sir.service.soket;
 import com.google.gson.Gson;
 import com.sir.service.serial.SerialBean;
 import com.sir.service.serial.SerialService;
+import com.sir.service.sys.SysKeys;
+import com.sir.service.sys.SysVoice;
 import com.sir.service.uitls.LogUtils;
-import com.sir.service.voice.SysVoice;
 import gnu.io.SerialPort;
 
 import java.io.IOException;
@@ -79,6 +80,24 @@ public class SocketProcessor {
                 } else if ("minus".equals(voice)) {
                     SysVoice.minus();
                 }
+            }
+            return "ok";
+        } catch (Exception e) {
+            return e.toString();
+        }
+    }
+
+    /**
+     * 命令
+     *
+     * @param keys
+     * @return
+     */
+    public static String exeKeys(String keys) {
+        try {
+            LogUtils.i("执行按键命令:" + keys);
+            if ("f5".equals(keys)) {
+                SysKeys.F5();
             }
             return "ok";
         } catch (Exception e) {

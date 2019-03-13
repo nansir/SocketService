@@ -9,5 +9,6 @@ public class Key {
     public static final String PORT = "port";
     public static final String HCom = "cmd";
     public static final String HSerial = "serial";
-    public static final String HVoice = "voice";
+    public static final String HVoice = "sys";
+    public static final String HKeys = "keys";
 }
