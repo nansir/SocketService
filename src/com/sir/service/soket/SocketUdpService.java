@@ -84,8 +84,10 @@ public class SocketUdpService extends Thread {
                         } else if (Key.HSerial.equals(order[0])) {
                             mProcessor.exeSerial(order[1]);
                         } else if (Key.HVoice.equals(order[0])) {
-                            mProcessor.exeVoice(order[1].toLowerCase().trim());
-                        }else {
+                            mProcessor.exeVol(order[1].toLowerCase().trim());
+                        } else if (Key.HKeys.equals(order[0])) {
+                            mProcessor.exeKeys(order[1]);
+                        } else {
                             LogUtils.i("反馈：The head is invalid");
                         }
                     } else {

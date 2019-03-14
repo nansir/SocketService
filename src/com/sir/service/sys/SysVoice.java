@@ -26,25 +26,24 @@ public class SysVoice {
         try {
             String vbsMessage;
             File tempFile;
-            Runtime runtime = Runtime.getRuntime();
             switch (type) {
                 case MUTE:
-                    tempFile = new File("temp", "volumeMute.vbs");
+                    tempFile = new File("temp", "Voice_Mute.vbs");
                     vbsMessage = !tempFile.exists() ? "CreateObject(\"Wscript.Shell\").Sendkeys \"棴\"" : "";
                     break;
                 case ADD:
-                    tempFile = new File("temp", "volumeAdd.vbs");
+                    tempFile = new File("temp", "Voice_Add.vbs");
                     vbsMessage = !tempFile.exists() ? "CreateObject(\"Wscript.Shell\").Sendkeys \"棷\"" : "";
                     break;
                 case MINUS:
-                    tempFile = new File("temp", "volumeMinus.vbs");
+                    tempFile = new File("temp", "Voice_Minus.vbs");
                     vbsMessage = !tempFile.exists() ? "CreateObject(\"Wscript.Shell\").Sendkeys \"棶\"" : "";
                     break;
                 default:
                     return;
             }
             /**
-             * 当3个vbs文件不存在时，则创建它们，应用默认编码为 utf-8 时，创建的 vbs 脚本运行时报错
+             * 当vbs文件不存在时，则创建它们，应用默认编码为 utf-8 时，创建的 vbs 脚本运行时报错
              * 于是使用 OutputStreamWriter 将 vbs 文件编码改成gbd就正常了
              */
             if (!tempFile.exists() && !vbsMessage.equals("")) {
@@ -57,8 +56,9 @@ public class SysVoice {
                 outputStreamWriter.write(vbsMessage);
                 outputStreamWriter.flush();
                 outputStreamWriter.close();
-                LogUtils.i("vbs文件不存在,新建成功：" + tempFile.getAbsolutePath());
+                LogUtils.i("vbs文件不存在,新建：" + tempFile.getAbsolutePath());
             }
+            Runtime runtime = Runtime.getRuntime();
             runtime.exec("wscript " + tempFile.getAbsolutePath()).waitFor();
             LogUtils.i("音量控制执行成功.");
         } catch (IOException e) {

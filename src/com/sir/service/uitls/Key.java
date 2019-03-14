@@ -7,8 +7,11 @@ package com.sir.service.uitls;
 public class Key {
     public static final String MODEL = "model";
     public static final String PORT = "port";
+    public static final String ADD = "add";
+    public static final String MINUS = "minus";
+    public static final String MUTE = "mute";
     public static final String HCom = "cmd";
-    public static final String HSerial = "serial";
-    public static final String HVoice = "sys";
     public static final String HKeys = "keys";
+    public static final String HVoice = "voice";
+    public static final String HSerial = "serial";
 }

@@ -5,6 +5,7 @@ import com.sir.service.serial.SerialBean;
 import com.sir.service.serial.SerialService;
 import com.sir.service.sys.SysKeys;
 import com.sir.service.sys.SysVoice;
+import com.sir.service.uitls.Key;
 import com.sir.service.uitls.LogUtils;
 import gnu.io.SerialPort;
 
@@ -50,7 +51,7 @@ public class SocketProcessor {
             SerialService.getInstance().sendToPort(serialPort, bean.getOrder());
             //关闭端口
             SerialService.getInstance().closePort(serialPort);
-            return "ok";
+            return "OK";
         } catch (Exception e) {
             return e.toString();
         }
@@ -62,26 +63,26 @@ public class SocketProcessor {
      * @param voice
      * @return
      */
-    public static String exeVoice(String voice) {
+    public static String exeVol(String voice) {
         try {
             LogUtils.i("执行声音命令:" + voice);
             String order[] = voice.split(" ");
             if (order.length == 2) {
-                if ("add".equals(order[0])) {
+                if (Key.ADD.equals(order[0])) {
                     SysVoice.add(order[1]);
-                } else if ("minus".equals(order[0])) {
+                } else if (Key.MINUS.equals(order[0])) {
                     SysVoice.minus(order[1]);
                 }
             } else {
-                if ("mute".equals(voice)) {
+                if (Key.MUTE.equals(voice)) {
                     SysVoice.mute();
-                } else if ("add".equals(voice)) {
+                } else if (Key.ADD.equals(voice)) {
                     SysVoice.add();
-                } else if ("minus".equals(voice)) {
+                } else if (Key.MINUS.equals(voice)) {
                     SysVoice.minus();
                 }
             }
-            return "ok";
+            return "OK";
         } catch (Exception e) {
             return e.toString();
         }
@@ -95,11 +96,9 @@ public class SocketProcessor {
      */
     public static String exeKeys(String keys) {
         try {
-            LogUtils.i("执行按键命令:" + keys);
-            if ("f5".equals(keys)) {
-                SysKeys.F5();
-            }
-            return "ok";
+            LogUtils.i("执行按键:" + keys);
+            SysKeys.execute(keys);
+            return "OK";
         } catch (Exception e) {
             return e.toString();
         }
