@@ -46,7 +46,7 @@ public class SerialService {
      *
      * @return 可用端口名称列表
      */
-    public static final ArrayList<String> findPort() {
+    public final ArrayList<String> findPort() {
         //获得当前所有可用串口
         Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
         ArrayList<String> portNameList = new ArrayList<>();
@@ -69,7 +69,7 @@ public class SerialService {
      * @throws NoSuchPort                 没有该端口对应的串口设备
      * @throws PortInUse                  端口已被占用
      */
-    public static final SerialPort openPort(String portName, int baudRate) throws SerialPortParameterFailure, NotASerialPort, NoSuchPort, PortInUse {
+    public final SerialPort openPort(String portName, int baudRate) throws SerialPortParameterFailure, NotASerialPort, NoSuchPort, PortInUse {
         try {
             //通过端口名识别端口
             CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
@@ -101,7 +101,7 @@ public class SerialService {
      *
      * @param serialPort 待关闭的串口对象
      */
-    public static void closePort(SerialPort serialPort) {
+    public void closePort(SerialPort serialPort) {
         if (serialPort != null) {
             serialPort.close();
             serialPort = null;
@@ -116,7 +116,7 @@ public class SerialService {
      * @throws SendDataToSerialPortFailure        向串口发送数据失败
      * @throws SerialPortOutputStreamCloseFailure 关闭串口对象的输出流出错
      */
-    public static void sendToPort(SerialPort serialPort, byte[] order) throws SendDataToSerialPortFailure, SerialPortOutputStreamCloseFailure {
+    public void sendToPort(SerialPort serialPort, byte[] order) throws SendDataToSerialPortFailure, SerialPortOutputStreamCloseFailure {
         OutputStream out = null;
         try {
             out = serialPort.getOutputStream();
@@ -144,7 +144,7 @@ public class SerialService {
      * @throws ReadDataFromSerialPortFailure     从串口读取数据时出错
      * @throws SerialPortInputStreamCloseFailure 关闭串口对象输入流出错
      */
-    public static byte[] readFromPort(SerialPort serialPort) throws ReadDataFromSerialPortFailure, SerialPortInputStreamCloseFailure {
+    public byte[] readFromPort(SerialPort serialPort) throws ReadDataFromSerialPortFailure, SerialPortInputStreamCloseFailure {
         InputStream in = null;
         byte[] bytes = null;
         try {
@@ -177,7 +177,7 @@ public class SerialService {
      * @param listener 串口监听器
      * @throws TooManyListeners 监听类对象过多
      */
-    public static void addListener(SerialPort port, SerialPortEventListener listener) throws TooManyListeners {
+    public void addListener(SerialPort port, SerialPortEventListener listener) throws TooManyListeners {
         try {
             //给串口添加监听器
             port.addEventListener(listener);

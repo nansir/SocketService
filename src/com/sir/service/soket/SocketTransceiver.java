@@ -38,7 +38,9 @@ public class SocketTransceiver implements Runnable {
                         feedback = mProcessor.exeVol(order[1].toLowerCase());
                     } else if (Key.HKeys.equals(order[0])) {
                         feedback = mProcessor.exeKeys(order[1]);
-                    } else {
+                    } else if (Key.HTask.equals(order[0])){
+                        feedback = mProcessor.exeTask(order[1]);
+                    }else {
                         feedback = "The head is invalid";
                     }
                 } else {

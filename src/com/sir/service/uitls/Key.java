@@ -10,8 +10,11 @@ public class Key {
     public static final String ADD = "add";
     public static final String MINUS = "minus";
     public static final String MUTE = "mute";
+    public static final String OK = "success";
+    public static final String NO = "failure";
     public static final String HCom = "cmd";
     public static final String HKeys = "keys";
     public static final String HVoice = "voice";
     public static final String HSerial = "serial";
+    public static final String HTask = "task";
 }

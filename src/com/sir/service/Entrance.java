@@ -1,7 +1,7 @@
 package com.sir.service;
 
-import com.sir.service.soket.SocketTcpService;
-import com.sir.service.soket.SocketUdpService;
+import com.sir.service.soket.SocketTCPService;
+import com.sir.service.soket.SocketUDPService;
 import com.sir.service.uitls.Key;
 import com.sir.service.uitls.MyUtils;
 
@@ -18,12 +18,12 @@ public class Entrance {
         try {
             String value = MyUtils.getConfig(Key.MODEL);
             if ("UDP".equals(value.toUpperCase())) {
-                SocketUdpService.getInstance().start();
+                SocketUDPService.getInstance().start();
             } else {
-                SocketTcpService.getInstance().start();
+                SocketTCPService.getInstance().start();
             }
         } catch (IOException e) {
-            SocketTcpService.getInstance().start();
+            SocketTCPService.getInstance().start();
         }
     }
 }

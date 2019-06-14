@@ -16,12 +16,12 @@ import java.util.concurrent.TimeUnit;
  * Created by zhuyinan on 2018/9/6.
  * Contact by 445181052@qq.com
  */
-public class SocketTcpService extends Thread {
+public class SocketTCPService extends Thread {
 
     //处理器
     private SocketProcessor mProcessor;
     //
-    private static SocketTcpService mService = null;
+    private static SocketTCPService mService = null;
     // 线程池，用于支持并发。
     private ExecutorService mThreadPool;
     //
@@ -32,18 +32,18 @@ public class SocketTcpService extends Thread {
     /**
      * 只能存在单实例
      */
-    private SocketTcpService() {
+    private SocketTCPService() {
         mThreadPool = Executors.newCachedThreadPool();
         mProcessor = new SocketProcessor();
         mStartup = true;
         mServerSocket = null;
     }
 
-    public static SocketTcpService getInstance() {
+    public static SocketTCPService getInstance() {
         if (mService == null) {
-            synchronized (SocketTcpService.class) {
+            synchronized (SocketTCPService.class) {
                 if (mService == null) {
-                    mService = new SocketTcpService();
+                    mService = new SocketTCPService();
                 }
             }
         }

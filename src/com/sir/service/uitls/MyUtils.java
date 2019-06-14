@@ -1,9 +1,6 @@
 package com.sir.service.uitls;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -60,5 +57,76 @@ public class MyUtils {
      */
     public static String getTime() {
         return df.format(new Date());
+    }
+
+
+    /**
+     * 获取JSON文件
+     *
+     * @param fileName
+     * @return
+     */
+    public static String getJson(String fileName) {
+        String encoding = "UTF-8";
+        File file = new File(fileName);
+        Long fileLength = file.length();
+        byte[] fileContent = new byte[fileLength.intValue()];
+        try {
+            FileInputStream in = new FileInputStream(file);
+            in.read(fileContent);
+            in.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            return new String(fileContent, encoding);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 为空判断
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isEmpty(String str) {
+        return str == null || str.length() == 0;
+    }
+
+
+    /**
+     * 目标网络检查
+     *
+     * @param str
+     * @return
+     */
+    public static boolean ping(String str) {
+        Runtime runtime = Runtime.getRuntime();
+        Process process;
+        try {
+            process = runtime.exec("ping " + str);
+            InputStream is = process.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            StringBuffer sb = new StringBuffer();
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            is.close();
+            isr.close();
+            br.close();
+            if (null != sb && !sb.toString().equals("")) {
+                return sb.toString().indexOf("TTL") > 0;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

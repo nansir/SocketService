@@ -14,13 +14,13 @@ import java.net.SocketException;
  * Created by zhuyinan on 2018/9/6.
  * Contact by 445181052@qq.com
  */
-public class SocketUdpService extends Thread {
+public class SocketUDPService extends Thread {
 
     private DatagramSocket dSocket = null;
 
     private byte[] msg = new byte[2048];
 
-    private static SocketUdpService mService;
+    private static SocketUDPService mService;
 
     //处理器
     private SocketProcessor mProcessor;
@@ -28,16 +28,16 @@ public class SocketUdpService extends Thread {
     //启动状态
     private volatile boolean mStartup;
 
-    public SocketUdpService() {
+    public SocketUDPService() {
         mProcessor = new SocketProcessor();
         mStartup = true;
     }
 
-    public static SocketUdpService getInstance() {
+    public static SocketUDPService getInstance() {
         if (mService == null) {
-            synchronized (SocketUdpService.class) {
+            synchronized (SocketUDPService.class) {
                 if (mService == null) {
-                    mService = new SocketUdpService();
+                    mService = new SocketUDPService();
                 }
             }
         }
@@ -87,6 +87,8 @@ public class SocketUdpService extends Thread {
                             mProcessor.exeVol(order[1].toLowerCase().trim());
                         } else if (Key.HKeys.equals(order[0])) {
                             mProcessor.exeKeys(order[1]);
+                        } else if (Key.HTask.equals(order[0])){
+                            mProcessor.exeTask(order[1]);
                         } else {
                             LogUtils.i("反馈：The head is invalid");
                         }
