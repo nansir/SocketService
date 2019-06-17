@@ -27,18 +27,11 @@ public class ControlComputer extends SocketClient {
      * @param subnetMask 主机子网掩码
      */
     public void wakeUpDevice(final String ip, final String mac, final String subnetMask) {
-        Runnable mRunnable = () -> {
+        mPool.execute(() -> {
             String broadcastAddress = getBroadcastAddress(ip.trim(), subnetMask.trim());
             String processMac = mac.replace("-", "").replace(":", "");
-            wakeBy(broadcastAddress, processMac, 4343);
-            try {
-                //防止系统不及时能释放的问题
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        };
-        mPool.execute(mRunnable);
+            wakeBy(broadcastAddress, processMac, (int) ((Math.random() * 9 + 1) * 1000));
+        });
     }
 
     /**
@@ -76,19 +69,24 @@ public class ControlComputer extends SocketClient {
     private void wakeBy(String ip, String mac, int port) {
         //构建magic魔术包
         String MagicPackage = "FFFFFFFFFFFF";
+        DatagramSocket socket = null;
+        LogUtils.i(ip+"="+mac+"="+port);
         for (int i = 0; i < 16; i++) {
             MagicPackage += mac;
         }
         byte[] MPBinary = hexStr2BinArr(MagicPackage);
         try {
             InetAddress address = InetAddress.getByName(ip);
-            DatagramSocket socket = new DatagramSocket(port);
+            socket = new DatagramSocket(port);
             DatagramPacket packet = new DatagramPacket(MPBinary, MPBinary.length, address, port);
             //发送udp数据包到广播地址
             socket.send(packet);
-            socket.close();
         } catch (IOException e) {
             LogUtils.e(e.getMessage());
+        } finally {
+            if (socket != null) {
+                socket.close();
+            }
         }
     }
 
